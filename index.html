@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, World!</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+      <h1 class="title">Hello World!</h1>
+      <p id="currentTime"></p>
+      <script src="script.js"></script>
+  </body>
+</html>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTrong PROXY V1.0</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#02090d;
+    color:#00ffe1;
+    font-family:'Share Tech Mono',monospace;
+    min-height:100vh;
+    padding:20px 0;
+}
+
+#matrix{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    opacity:.15;
+}
+
+.container{
+    width:92%;
+    max-width:520px;
+    margin:auto;
+    padding:22px;
+    background:rgba(0,15,22,.96);
+    border:1px solid #00ffe1;
+    border-radius:9px;
+    box-shadow:0 0 20px #00ffe144;
+}
+
+.header{
+    text-align:center;
+    padding:15px 0 22px;
+    border-bottom:1px solid #007e75;
+}
+
+.logo{
+    font-family:Orbitron,sans-serif;
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:2px;
+    text-shadow:0 0 15px #00ffe1;
+}
+
+.version{
+    font-size:10px;
+    color:#579c96;
+    margin-top:9px;
+}
+
+.status{
+    color:#00ff88;
+    font-size:12px;
+    margin-top:15px;
+}
+
+.section{
+    margin-top:25px;
+}
+
+.title{
+    font-family:Orbitron,sans-serif;
+    font-size:12px;
+    margin-bottom:13px;
+    letter-spacing:2px;
+}
+
+.panel{
+    background:#03151c;
+    border:1px solid #00766e;
+    border-radius:5px;
+    padding:15px;
+    margin-bottom:12px;
+}
+
+.row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.name{
+    font-size:14px;
+}
+
+.desc{
+    font-size:10px;
+    color:#57958e;
+    margin-top:5px;
+}
+
+.state{
+    font-size:10px;
+    color:#ff5555;
+    margin-top:5px;
+}
+
+/* SWITCH */
+
+.switch{
+    position:relative;
+    width:46px;
+    height:24px;
+    flex-shrink:0;
+}
+
+.switch input{
+    display:none;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    background:#183138;
+    border-radius:30px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.slider:before{
+    content:"";
+    position:absolute;
+    height:18px;
+    width:18px;
+    left:3px;
+    bottom:3px;
+    background:#718c88;
+    border-radius:50%;
+    transition:.3s;
+}
+
+.switch input:checked + .slider{
+    background:#007e75;
+    box-shadow:0 0 12px #00ffe1;
+}
+
+.switch input:checked + .slider:before{
+    transform:translateX(22px);
+    background:#00ffe1;
+}
+
+/* CPU RAM */
+
+.stathead{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+.bar{
+    height:7px;
+    background:#142a30;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    width:30%;
+    background:#00ffe1;
+    box-shadow:0 0 12px #00ffe1;
+    transition:width .5s;
+}
+
+/* FOV */
+
+.value{
+    color:white;
+    font-size:13px;
+}
+
+input[type=range]{
+    width:100%;
+    margin-top:15px;
+    accent-color:#00ffe1;
+}
+
+/* ESP PREVIEW */
+
+.preview{
+    height:220px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+    border:1px solid #007e75;
+    background:
+    linear-gradient(#00ffe10c 1px,transparent 1px),
+    linear-gradient(90deg,#00ffe10c 1px,transparent 1px),
+    #020c11;
+    background-size:20px 20px;
+}
+
+.character{
+    width:65px;
+    height:125px;
+    border:1px solid #00ffe1;
+    box-shadow:0 0 12px #00ffe1;
+    position:relative;
+    animation:glow 1.5s infinite alternate;
+}
+
+.character:before{
+    content:"";
+    position:absolute;
+    width:25px;
+    height:25px;
+    border:1px solid #00ffe1;
+    border-radius:50%;
+    left:19px;
+    top:8px;
+}
+
+.character:after{
+    content:"SIMULATED BODY";
+    position:absolute;
+    bottom:-23px;
+    left:-10px;
+    width:85px;
+    font-size:9px;
+    text-align:center;
+    color:#00ff88;
+}
+
+.preview.off .character{
+    display:none;
+}
+
+.preview.off:after{
+    content:"ESP BOX DISABLED";
+    color:#57958e;
+    font-size:12px;
+}
+
+@keyframes glow{
+    from{opacity:.5}
+    to{opacity:1}
+}
+
+/* TERMINAL */
+
+.terminal{
+    height:115px;
+    overflow:auto;
+    background:#01090d;
+    border:1px solid #006e68;
+    padding:12px;
+    font-size:11px;
+    line-height:1.8;
+    color:#00d9b9;
+}
+
+/* BUTTON */
+
+.activate{
+    width:100%;
+    padding:17px;
+    margin-top:22px;
+    background:transparent;
+    color:#00ffe1;
+    border:1px solid #00ffe1;
+    border-radius:5px;
+    font-family:Orbitron,sans-serif;
+    font-weight:900;
+    letter-spacing:2px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.activate:hover{
+    background:#00ffe1;
+    color:#001014;
+    box-shadow:0 0 20px #00ffe1;
+}
+
+.activate.active{
+    background:#00ff88;
+    color:#001014;
+    border-color:#00ff88;
+    box-shadow:0 0 20px #00ff88;
+}
+
+.footer{
+    text-align:center;
+    color:#397a75;
+    font-size:10px;
+    margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+        <div class="logo">HTrong//PROXY</div>
+        <div class="version">ADVANCED CYBER INTERFACE V6.0</div>
+        <div class="status" id="status">
+            ● STATUS: SAFE [UNDETECTED]
+        </div>
+    </div>
+
+    <!-- SYSTEM MONITOR -->
+
+    <div class="section">
+        <div class="title">▣ SYSTEM MONITOR</div>
+
+        <div class="panel">
+            <div class="stathead">
+                <span>CPU USAGE</span>
+                <span id="cpu">35%</span>
+            </div>
+            <div class="bar">
+                <div class="fill" id="cpuBar"></div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="stathead">
+                <span>RAM MEMORY</span>
+                <span id="ram">48%</span>
+            </div>
+            <div class="bar">
+                <div class="fill" id="ramBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROXY -->
+
+    <div class="section">
+        <div class="title">▣ PROXY CONFIGURATION</div>
+
+        <div class="panel row">
+            <div>
+                <div class="name">PROXY MODE</div>
+                <div class="desc">PROXY SIMULATION</div>
+                <div class="state" id="proxyState">● OFF</div>
+            </div>
+
+            <label class="switch">
+                <input type="checkbox" id="proxy">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="panel row">
+            <div>
+                <div class="name">NO RECOIL</div>
+                <div class="desc">RECOIL SIMULATION</div>
+                <div class="state" id="recoilState">● OFF</div>
+            </div>
+
+            <label class="switch">
+                <input type="checkbox" id="recoil">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <!-- AIMBODY -->
+
+    <div class="section">
+        <div class="title">▣ AIM CONFIGURATION</div>
+
+        <div class="panel row">
+            <div>
+                <div class="name">AIMBODY BODY</div>
+                <div class="desc">BODY MODE SIMULATION</div>
+                <div class="state" id="aimState">● AIMBODY: OFF</div>
+            </div>
+
+            <label class="switch">
+                <input type="checkbox" id="aimbody">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <!-- FOV -->
+
+        <div class="panel">
+            <div class="row">
+                <span class="name">FOV CONTROL</span>
+                <span class="value" id="fovValue">90°</span>
+            </div>
+
+            <input type="range"
+                   id="fov"
+                   min="10"
+                   max="180"
+                   value="90">
+        </div>
+    </div>
+
+    <!-- ESP BOX -->
+
+    <div class="section">
+        <div class="title">▣ ESP CONFIGURATION</div>
+
+        <div class="panel row">
+            <div>
+                <div class="name">ESP BOX</div>
+                <div class="desc">NEON BOX SIMULATION</div>
+                <div class="state" id="espState">● ESP: ON</div>
+            </div>
+
+            <label class="switch">
+                <input type="checkbox" id="esp" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="preview" id="preview">
+            <div class="character"></div>
+        </div>
+    </div>
+
+    <!-- TERMINAL -->
+
+    <div class="section">
+        <div class="title">▣ SYSTEM TERMINAL</div>
+
+        <div class="terminal" id="terminal">
+            &gt; HTrong PROXY INITIALIZED<br>
+            &gt; AIMBODY BODY READY<br>
+            &gt; ESP BOX READY<br>
+            &gt; SYSTEM WAITING...
+        </div>
+    </div>
+
+    <!-- ACTIVATE -->
+
+    <button class="activate" id="activate">
+        [ ACTIVATE SYSTEM ]
+    </button>
+
+    <div class="footer">
+        HTrong//PROXY V6.0<br>
+        CYBERPUNK INTERFACE SIMULATION © 2026
+    </div>
+
+</div>
+
+<script>
+
+// MATRIX BACKGROUND
+
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+let drops = [];
+const font = 14;
+const chars = "01HTrongアイウエオ";
+
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    drops = Array(Math.floor(canvas.width/font)).fill(1);
+}
+
+resize();
+window.addEventListener("resize",resize);
+
+function drawMatrix(){
+    ctx.fillStyle = "rgba(2,8,12,.08)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle = "#00ffe1";
+    ctx.font = font+"px monospace";
+
+    drops.forEach((y,i)=>{
+        const char = chars[Math.floor(Math.random()*chars.length)];
+
+        ctx.fillText(char,i*font,y*font);
+
+        if(y*font>canvas.height && Math.random()>.975){
+            drops[i]=0;
+        }
+
+        drops[i]++;
+    });
+}
+
+setInterval(drawMatrix,40);
+
+// TERMINAL LOG
+
+function log(message){
+    const terminal = document.getElementById("terminal");
+    const line = document.createElement("div");
+
+    line.textContent = "> "+message;
+    terminal.appendChild(line);
+
+    while(terminal.children.length>8){
+        terminal.removeChild(terminal.firstChild);
+    }
+
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+// CPU RAM SIMULATION
+
+function updateStats(){
+    const cpu = Math.floor(Math.random()*45)+15;
+    const ram = Math.floor(Math.random()*35)+40;
+
+    document.getElementById("cpu").textContent=cpu+"%";
+    document.getElementById("ram").textContent=ram+"%";
+
+    document.getElementById("cpuBar").style.width=cpu+"%";
+    document.getElementById("ramBar").style.width=ram+"%";
+}
+
+setInterval(updateStats,1200);
+
+// SWITCH HANDLER
+
+function setupSwitch(id,stateId,label){
+    const input = document.getElementById(id);
+    const state = document.getElementById(stateId);
+
+    input.addEventListener("change",function(){
+
+        const enabled = this.checked;
+
+        state.textContent = "● "+label+": "+(enabled?"ON":"OFF");
+        state.style.color = enabled?"#00ff88":"#ff5555";
+
+        log(label+": "+(enabled?"ACTIVATED":"DEACTIVATED"));
+    });
+}
+
+// PROXY
+
+setupSwitch("proxy","proxyState","PROXY");
+
+// NO RECOIL
+
+setupSwitch("recoil","recoilState","NO RECOIL");
+
+// AIMBODY ON/OFF
+
+setupSwitch("aimbody","aimState","AIMBODY");
+
+// ESP ON/OFF
+
+const esp = document.getElementById("esp");
+
+esp.addEventListener("change",function(){
+
+    const preview = document.getElementById("preview");
+    const state = document.getElementById("espState");
+
+    preview.classList.toggle("off",!this.checked);
+
+    state.textContent = "● ESP: "+(this.checked?"ON":"OFF");
+    state.style.color = this.checked?"#00ff88":"#ff5555";
+
+    log("ESP BOX: "+(this.checked?"ON":"OFF"));
+});
+
+// FOV
+
+document.getElementById("fov").addEventListener("input",function(){
+
+    document.getElementById("fovValue").textContent=this.value+"°";
+
+    log("FOV VALUE: "+this.value);
+});
+
+// ACTIVATE SYSTEM
+
+let active = false;
+
+document.getElementById("activate").addEventListener("click",function(){
+
+    active = !active;
+
+    const status = document.getElementById("status");
+
+    if(active){
+
+        this.textContent="[ SYSTEM ACTIVE ]";
+        this.classList.add("active");
+
+        status.textContent="● STATUS: ACTIVE";
+        status.style.color="#00ff88";
+
+        log("SYSTEM ACTIVATED");
+        log("SIMULATION RUNNING");
+
+    }else{
+
+        this.textContent="[ ACTIVATE SYSTEM ]";
+        this.classList.remove("active");
+
+        status.textContent="● STATUS: SAFE [UNDETECTED]";
+        status.style.color="#00ff88";
+
+        log("SYSTEM DEACTIVATED");
+    }
+});
+
+</script>
+
+</body>
+</html>
